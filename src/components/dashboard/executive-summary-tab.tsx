@@ -394,7 +394,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
     'help': 'You can ask about causes, recommended fixes, financial impact, specific hubs like Bangalore, or details about the inventory sync lag. You can also ask for specific action plans to address these issues.'
   };
 
-  const handleKnowMore = (insight: string) => {
+  const handleQuickActions = (insight: string) => {
     setActiveInsight(insight);
     setChatContent(chatData[insight] || []);
     setChatPopup(true);
@@ -440,7 +440,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
   return (
     <div className="min-h-screen">
       {/* Header with Carousel */}
-      <header className="bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg rounded-xl relative overflow-hidden">
+      {/* <header className="bg-gradient-to-r from-slate-700 to-slate-800 text-white shadow-lg rounded-xl relative overflow-hidden">
         <div className="container mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center flex-1">
@@ -465,20 +465,20 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                 Refresh Alerts
               </Button>
             </div>
-          </div>
+          </div> */}
           
           {/* Navigation Buttons */}
-          <div className="flex justify-between items-center mt-4">
+          {/* <div className="flex justify-between items-center mt-4">
             <Button 
               onClick={goToPrevious}
               variant="ghost" 
               className="text-white hover:text-slate-300 hover:bg-slate-600 p-2 rounded-full"
             >
               <ChevronLeft className="h-5 w-5" />
-            </Button>
+            </Button> */}
             
             {/* Progress Indicators */}
-            <div className="flex space-x-2">
+            {/* <div className="flex space-x-2">
               {carouselAlerts.map((_, index) => (
                 <div
                   key={index}
@@ -496,17 +496,17 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
             >
               <ChevronRightIcon className="h-5 w-5" />
             </Button>
-          </div>
+          </div> */}
           
           {/* Loading Bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-600">
+          {/* <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-600">
             <div 
               className="h-full bg-white transition-all duration-100 ease-linear"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
@@ -519,7 +519,60 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
             <div>
               <h2 className="text-xl font-bold text-slate-800">₹9.6 Lakhs at Risk Today</h2>
               <p className="text-slate-700 mt-1">Immediate action required: Inventory sync delays causing significant revenue loss and customer dissatisfaction</p>
-            </div>
+        </div>
+      </div>
+        </div>
+
+        {/* Insights Section 1: Inventory Sync & Overselling */}
+        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          <AlertTriangle className="h-6 w-6 mr-2 text-slate-600" />
+          Inventory Sync Delay & Overselling
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {insightCards.slice(0, 4).map((card) => (
+            <div key={card.id} className={`insight-card ${card.type} bg-white rounded-xl shadow-md p-5 relative transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg`}>
+              <div className={`absolute -top-3 -right-3 ${card.type === 'critical' ? 'bg-red-100' : 'bg-amber-100'} p-1.5 rounded-full border-2 border-white`}>
+                <AlertCircle className={`h-5 w-5 ${card.type === 'critical' ? 'text-red-600' : 'text-amber-600'}`} />
+                </div>
+              <h4 className="font-bold text-lg text-gray-800 mb-2">{card.title}</h4>
+              <p className="text-gray-600 mb-4">{card.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-slate-600">{card.impact}</span>
+                <Button 
+                  variant="ghost" 
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
+                  onClick={() => handleQuickActions(card.insight)}
+                >
+                  Quick Actions
+                  <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+                      </div>
+                    </div>
+                  ))}
+        </div>
+
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl shadow-lg p-6 mb-8">
+          <h3 className="text-xl font-bold text-white mb-4">Urgent Action Plan</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {actionPlans.map((plan, index) => (
+              <div key={index} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+                <div className="flex items-start">
+                  <div className="bg-white p-2 rounded-lg mr-3">
+                    {plan.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">{plan.title}</h4>
+                    <p className="text-sm text-slate-300 mt-1">{plan.description}</p>
+                  </div>
+                </div>
+              </div>
+                ))}
+              </div>
+          <div className="mt-4 flex justify-center">
+            <Button className="bg-white text-slate-800 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors">
+              Implement Emergency Protocol
+            </Button>
           </div>
         </div>
 
@@ -544,67 +597,18 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                     </li>
                   ))}
                 </ul>
-              </div>
+                </div>
             ))}
           </div>
         </div>
 
-        {/* Insights Section 1: Inventory Sync & Overselling */}
-        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
-          <AlertTriangle className="h-6 w-6 mr-2 text-slate-600" />
-          Inventory Sync Delay & Overselling
-        </h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {insightCards.slice(0, 4).map((card) => (
-            <div key={card.id} className={`insight-card ${card.type} bg-white rounded-xl shadow-md p-5 relative transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg`}>
-              <div className={`absolute -top-3 -right-3 ${card.type === 'critical' ? 'bg-red-100' : 'bg-amber-100'} p-1.5 rounded-full border-2 border-white`}>
-                <AlertCircle className={`h-5 w-5 ${card.type === 'critical' ? 'text-red-600' : 'text-amber-600'}`} />
-              </div>
-              <h4 className="font-bold text-lg text-gray-800 mb-2">{card.title}</h4>
-              <p className="text-gray-600 mb-4">{card.description}</p>
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-slate-600">{card.impact}</span>
-                <Button 
-                  variant="ghost" 
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
-                  onClick={() => handleKnowMore(card.insight)}
-                >
-                  Know More
-                  <ArrowRight className="h-4 w-4 ml-1" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
+
 
         {/* Action Plan Section */}
-        <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl shadow-lg p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4">Urgent Action Plan</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {actionPlans.map((plan, index) => (
-              <div key={index} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-4">
-                <div className="flex items-start">
-                  <div className="bg-white p-2 rounded-lg mr-3">
-                    {plan.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">{plan.title}</h4>
-                    <p className="text-sm text-slate-300 mt-1">{plan.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center">
-            <Button className="bg-white text-slate-800 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors">
-              Implement Emergency Protocol
-            </Button>
-          </div>
-        </div>
+       
 
         {/* Insights Section 2: Routing Errors */}
-        <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+        {/* <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
           <Activity className="h-6 w-6 mr-2 text-slate-600" />
           Hub Assignment Errors & Reassignments
         </h3>
@@ -622,7 +626,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                 <Button 
                   variant="ghost" 
                   className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
-                  onClick={() => handleKnowMore(card.insight)}
+                  onClick={() => handleQuickActions(card.insight)}
                 >
                   Know More
                   <ArrowRight className="h-4 w-4 ml-1" />
@@ -630,7 +634,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </main>
 
       {/* Chat Popup */}
@@ -659,8 +663,8 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                   </div>
                 )}
               </div>
-            ))}
-          </div>
+                ))}
+              </div>
           <div className="border-t p-4 flex">
             <Input
               type="text"
@@ -674,7 +678,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
               <Send className="h-5 w-5" />
             </Button>
           </div>
-        </div>
+              </div>
       )}
     </div>
   );

@@ -70,13 +70,13 @@ export default function Header({ timeRange, onTimeRangeChange, showChatbot = fal
               </Badge>
             </Button>
             
-            <Button 
+            {/* <Button 
               onClick={handleRefresh}
               className="bg-amul-red hover:bg-red-700 text-white"
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               Refresh Data
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
