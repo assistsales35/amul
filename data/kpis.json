@@ -1,0 +1,194 @@
+[
+  {
+    "id": 1,
+    "name": "Gross Profit Margin",
+    "unit": "%",
+    "section": "Financial Health",
+    "description": "Percentage of revenue retained after accounting for cost of goods sold",
+    "value": 28.5
+  },
+  {
+    "id": 2,
+    "name": "Operating Profit Margin",
+    "unit": "%",
+    "section": "Financial Health",
+    "description": "Percentage of revenue retained after accounting for all operating expenses",
+    "value": 15.2
+  },
+  {
+    "id": 3,
+    "name": "Cash Flow from Operations",
+    "unit": "₹ Cr",
+    "section": "Financial Health",
+    "description": "Net cash generated from core business operations",
+    "value": 245.8
+  },
+  {
+    "id": 4,
+    "name": "Return on Investment",
+    "unit": "%",
+    "section": "Financial Health",
+    "description": "Return generated on capital invested in the business",
+    "value": 18.7
+  },
+  {
+    "id": 5,
+    "name": "Order Fill Rate",
+    "unit": "%",
+    "section": "Demand–Supply Mismatch",
+    "description": "Percentage of customer orders fulfilled completely and on time",
+    "value": 94.2
+  },
+  {
+    "id": 6,
+    "name": "Stock-Out Instances per SKU",
+    "unit": "count",
+    "section": "Demand–Supply Mismatch",
+    "description": "Number of times each SKU was out of stock during the period",
+    "value": 3.1
+  },
+  {
+    "id": 7,
+    "name": "Backorder Volume",
+    "unit": "units",
+    "section": "Demand–Supply Mismatch",
+    "description": "Total volume of orders that could not be fulfilled due to stock unavailability",
+    "value": 12500
+  },
+  {
+    "id": 8,
+    "name": "Forecast Accuracy",
+    "unit": "%",
+    "section": "Demand–Supply Mismatch",
+    "description": "Accuracy of demand forecasting compared to actual sales",
+    "value": 87.3
+  },
+  {
+    "id": 9,
+    "name": "SKU-Wise Sales vs Planned Production Variance",
+    "unit": "%",
+    "section": "Demand–Supply Mismatch",
+    "description": "Variance between actual sales and planned production for each SKU",
+    "value": 12.5
+  },
+  {
+    "id": 10,
+    "name": "Plant Utilization Rate",
+    "unit": "%",
+    "section": "Production & Inventory Health",
+    "description": "Percentage of time production facilities are actively producing",
+    "value": 78.9
+  },
+  {
+    "id": 11,
+    "name": "Production Cycle Time",
+    "unit": "hours",
+    "section": "Production & Inventory Health",
+    "description": "Average time to complete one production cycle",
+    "value": 4.2
+  },
+  {
+    "id": 12,
+    "name": "Inventory Turnover Ratio",
+    "unit": "times",
+    "section": "Production & Inventory Health",
+    "description": "Number of times inventory is sold and replaced in a given period",
+    "value": 6.8
+  },
+  {
+    "id": 13,
+    "name": "Finished Goods Inventory by SKU",
+    "unit": "units",
+    "section": "Production & Inventory Health",
+    "description": "Current inventory levels for each finished product SKU",
+    "value": 45000
+  },
+  {
+    "id": 14,
+    "name": "Scrap/Wastage Rate",
+    "unit": "%",
+    "section": "Production & Inventory Health",
+    "description": "Percentage of materials lost during production process",
+    "value": 2.1
+  },
+  {
+    "id": 15,
+    "name": "On-Time Dispatch Rate",
+    "unit": "%",
+    "section": "Logistics & Distribution",
+    "description": "Percentage of shipments dispatched on schedule",
+    "value": 96.7
+  },
+  {
+    "id": 16,
+    "name": "Fleet Utilization",
+    "unit": "%",
+    "section": "Logistics & Distribution",
+    "description": "Percentage of available fleet capacity being utilized",
+    "value": 82.4
+  },
+  {
+    "id": 17,
+    "name": "Average Delivery Lead Time",
+    "unit": "hours",
+    "section": "Logistics & Distribution",
+    "description": "Average time from dispatch to delivery",
+    "value": 18.5
+  },
+  {
+    "id": 18,
+    "name": "Cold Chain Temperature Breach Instances",
+    "unit": "count",
+    "section": "Logistics & Distribution",
+    "description": "Number of temperature control violations during transport",
+    "value": 5
+  },
+  {
+    "id": 19,
+    "name": "Distributor Fill Rate",
+    "unit": "%",
+    "section": "Logistics & Distribution",
+    "description": "Percentage of distributor orders fulfilled completely",
+    "value": 91.3
+  },
+  {
+    "id": 20,
+    "name": "Lost Sales Value (Estimated)",
+    "unit": "₹ Cr",
+    "section": "Sales, Revenue & Market Insights",
+    "description": "Estimated value of sales lost due to stockouts or service issues",
+    "value": 15.7
+  },
+  {
+    "id": 21,
+    "name": "Sales Return Rate",
+    "unit": "%",
+    "section": "Sales, Revenue & Market Insights",
+    "description": "Percentage of sales returned by customers",
+    "value": 1.8
+  },
+  {
+    "id": 22,
+    "name": "Retailer Service Level",
+    "unit": "%",
+    "section": "Sales, Revenue & Market Insights",
+    "description": "Service level provided to retail partners",
+    "value": 95.2
+  },
+  {
+    "id": 23,
+    "name": "Competitor Stock Presence in Key Markets",
+    "unit": "%",
+    "section": "Sales, Revenue & Market Insights",
+    "description": "Percentage of key markets where competitor products are available",
+    "value": 67.3
+  },
+  {
+    "id": 24,
+    "name": "Daily Demand Spike Events vs Response Time",
+    "unit": "hours",
+    "section": "Sales, Revenue & Market Insights",
+    "description": "Average response time to unexpected demand spikes",
+    "value": 6.8
+  }
+] 
