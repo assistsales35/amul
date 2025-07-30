@@ -59,7 +59,7 @@ export default function Header({ timeRange, onTimeRangeChange, showChatbot = fal
             </Button>
             
 
-            <Button 
+            {/* <Button 
               variant="outline"
               className="relative"
             >
@@ -68,7 +68,7 @@ export default function Header({ timeRange, onTimeRangeChange, showChatbot = fal
               <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5">
                 3
               </Badge>
-            </Button>
+            </Button> */}
             
             {/* <Button 
               onClick={handleRefresh}

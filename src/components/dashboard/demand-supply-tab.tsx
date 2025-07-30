@@ -58,44 +58,289 @@ export default function DemandSupplyTab({ timeRange }: DemandSupplyTabProps) {
 
   // Generate mock data based on filters
   function getMockData(region: string, timeRange: string, productCategory: string, channel: string) {
-    // Just for demo: change numbers based on filter values
-    let base = 90;
-    if (region === "north") base -= 2;
-    if (region === "south") base += 3;
-    if (region === "east") base -= 1;
-    if (region === "west") base += 1;
-    if (productCategory !== "all") base += 0.5;
-    if (channel === "online") base -= 1.5;
-    if (timeRange === "last-7-days") base -= 0.5;
-    if (timeRange === "this-year") base += 1.2;
+    // Base values
+    let orderFillRate = 94.2;
+    let stockOutInstances = 3.2;
+    let backorderVolume = 2.1;
+    let forecastAccuracy = 88.5;
+    let salesVsProduction = 12.5;
+
+    // Region adjustments
+    switch (region) {
+      case "north":
+        orderFillRate = 91.8;
+        stockOutInstances = 4.1;
+        backorderVolume = 2.8;
+        forecastAccuracy = 85.2;
+        salesVsProduction = 15.3;
+        break;
+      case "south":
+        orderFillRate = 96.7;
+        stockOutInstances = 2.1;
+        backorderVolume = 1.4;
+        forecastAccuracy = 92.1;
+        salesVsProduction = 8.9;
+        break;
+      case "east":
+        orderFillRate = 89.5;
+        stockOutInstances = 5.3;
+        backorderVolume = 3.2;
+        forecastAccuracy = 82.7;
+        salesVsProduction = 18.7;
+        break;
+      case "west":
+        orderFillRate = 93.1;
+        stockOutInstances = 3.8;
+        backorderVolume = 2.5;
+        forecastAccuracy = 87.9;
+        salesVsProduction = 13.4;
+        break;
+    }
+
+    // Time range adjustments
+    switch (timeRange) {
+      case "last-7-days":
+        orderFillRate -= 1.2;
+        stockOutInstances += 0.8;
+        backorderVolume += 0.3;
+        forecastAccuracy -= 2.1;
+        salesVsProduction += 1.5;
+        break;
+      case "this-month":
+        orderFillRate += 0.5;
+        stockOutInstances -= 0.3;
+        backorderVolume -= 0.2;
+        forecastAccuracy += 1.2;
+        salesVsProduction -= 0.8;
+        break;
+      case "this-year":
+        orderFillRate += 1.8;
+        stockOutInstances -= 1.2;
+        backorderVolume -= 0.8;
+        forecastAccuracy += 3.5;
+        salesVsProduction -= 2.1;
+        break;
+    }
+
+    // Product category adjustments
+    if (productCategory !== "all") {
+      switch (productCategory) {
+        case "milk":
+          orderFillRate += 2.1;
+          stockOutInstances -= 1.5;
+          backorderVolume -= 0.8;
+          forecastAccuracy += 1.8;
+          salesVsProduction -= 1.2;
+          break;
+        case "butter":
+          orderFillRate -= 0.8;
+          stockOutInstances += 0.9;
+          backorderVolume += 0.4;
+          forecastAccuracy -= 0.7;
+          salesVsProduction += 0.8;
+          break;
+        case "cheese":
+          orderFillRate += 1.2;
+          stockOutInstances -= 0.6;
+          backorderVolume -= 0.3;
+          forecastAccuracy += 1.1;
+          salesVsProduction -= 0.5;
+          break;
+        case "yogurt":
+          orderFillRate -= 1.5;
+          stockOutInstances += 1.2;
+          backorderVolume += 0.7;
+          forecastAccuracy -= 1.3;
+          salesVsProduction += 1.1;
+          break;
+        case "ice-cream":
+          orderFillRate += 0.9;
+          stockOutInstances -= 0.4;
+          backorderVolume -= 0.2;
+          forecastAccuracy += 0.8;
+          salesVsProduction -= 0.3;
+          break;
+      }
+    }
+
+    // Channel adjustments
+    switch (channel) {
+      case "retail":
+        orderFillRate += 1.3;
+        stockOutInstances -= 0.8;
+        backorderVolume -= 0.4;
+        forecastAccuracy += 1.5;
+        salesVsProduction -= 0.9;
+        break;
+      case "wholesale":
+        orderFillRate -= 0.7;
+        stockOutInstances += 0.5;
+        backorderVolume += 0.3;
+        forecastAccuracy -= 0.8;
+        salesVsProduction += 0.6;
+        break;
+      case "online":
+        orderFillRate -= 2.1;
+        stockOutInstances += 1.8;
+        backorderVolume += 1.2;
+        forecastAccuracy -= 2.5;
+        salesVsProduction += 2.3;
+        break;
+    }
+
     return {
-      orderFillRate: base + 4.2,
-      stockOutInstancesPerSku: Math.max(2, 10 - Math.floor(base / 10)),
-      backorderVolume: Math.max(1.2, 3.5 - (base - 90) * 0.2),
-      forecastAccuracy: base - 1.5,
-      skuWiseSalesVsPlannedProductionVariance: Math.round((base - 90) * 2.5 + 12),
+      orderFillRate: Math.max(75, Math.min(99, orderFillRate)),
+      stockOutInstancesPerSku: Math.max(0.5, Math.min(8, stockOutInstances)),
+      backorderVolume: Math.max(0.5, Math.min(5, backorderVolume)),
+      forecastAccuracy: Math.max(75, Math.min(95, forecastAccuracy)),
+      skuWiseSalesVsPlannedProductionVariance: Math.round(salesVsProduction),
     };
   }
 
   // Generate mock chart data based on filters
   function getChartData(region: string, timeRange: string, productCategory: string, channel: string) {
-    // Use the same base as getMockData for consistency
-    let base = 90;
-    if (region === "north") base -= 2;
-    if (region === "south") base += 3;
-    if (region === "east") base -= 1;
-    if (region === "west") base += 1;
-    if (productCategory !== "all") base += 0.5;
-    if (channel === "online") base -= 1.5;
-    if (timeRange === "last-7-days") base -= 0.5;
-    if (timeRange === "this-year") base += 1.2;
-    // Generate some mock chart data arrays
+    // Base chart data
+    let fillRate = [94.2, 94.8, 95.1, 95.5];
+    let stockOut = [3.2, 2.8, 3.1, 2.9, 3.0];
+    let backorder = [2.1, 2.3, 2.0, 2.2, 2.1, 2.0];
+    let salesVsProd = [12.5, -1.2, -0.8, -0.5, -1.1, 11.8];
+    let forecast = 88.5;
+
+    // Region adjustments for chart data
+    switch (region) {
+      case "north":
+        fillRate = [91.8, 92.1, 91.5, 91.9];
+        stockOut = [4.1, 3.8, 4.3, 4.0, 4.2];
+        backorder = [2.8, 3.0, 2.7, 2.9, 2.8, 2.7];
+        salesVsProd = [15.3, -0.8, -0.4, -0.2, -0.7, 14.2];
+        forecast = 85.2;
+        break;
+      case "south":
+        fillRate = [96.7, 97.1, 96.8, 97.2];
+        stockOut = [2.1, 1.8, 2.3, 2.0, 2.2];
+        backorder = [1.4, 1.6, 1.3, 1.5, 1.4, 1.3];
+        salesVsProd = [8.9, -1.8, -1.2, -0.8, -1.5, 7.8];
+        forecast = 92.1;
+        break;
+      case "east":
+        fillRate = [89.5, 89.8, 89.2, 89.6];
+        stockOut = [5.3, 5.0, 5.5, 5.2, 5.4];
+        backorder = [3.2, 3.4, 3.1, 3.3, 3.2, 3.1];
+        salesVsProd = [18.7, -0.2, 0.2, 0.6, 0.1, 17.6];
+        forecast = 82.7;
+        break;
+      case "west":
+        fillRate = [93.1, 93.5, 92.9, 93.3];
+        stockOut = [3.8, 3.5, 4.0, 3.7, 3.9];
+        backorder = [2.5, 2.7, 2.4, 2.6, 2.5, 2.4];
+        salesVsProd = [13.4, -1.0, -0.6, -0.3, -0.9, 12.3];
+        forecast = 87.9;
+        break;
+    }
+
+    // Time range adjustments
+    switch (timeRange) {
+      case "last-7-days":
+        fillRate = fillRate.map(v => v - 1.2);
+        stockOut = stockOut.map(v => v + 0.8);
+        backorder = backorder.map(v => v + 0.3);
+        forecast -= 2.1;
+        salesVsProd = salesVsProd.map(v => v + 1.5);
+        break;
+      case "this-month":
+        fillRate = fillRate.map(v => v + 0.5);
+        stockOut = stockOut.map(v => v - 0.3);
+        backorder = backorder.map(v => v - 0.2);
+        forecast += 1.2;
+        salesVsProd = salesVsProd.map(v => v - 0.8);
+        break;
+      case "this-year":
+        fillRate = fillRate.map(v => v + 1.8);
+        stockOut = stockOut.map(v => v - 1.2);
+        backorder = backorder.map(v => v - 0.8);
+        forecast += 3.5;
+        salesVsProd = salesVsProd.map(v => v - 2.1);
+        break;
+    }
+
+    // Product category adjustments
+    if (productCategory !== "all") {
+      switch (productCategory) {
+        case "milk":
+          fillRate = fillRate.map(v => v + 2.1);
+          stockOut = stockOut.map(v => v - 1.5);
+          backorder = backorder.map(v => v - 0.8);
+          forecast += 1.8;
+          salesVsProd = salesVsProd.map(v => v - 1.2);
+          break;
+        case "butter":
+          fillRate = fillRate.map(v => v - 0.8);
+          stockOut = stockOut.map(v => v + 0.9);
+          backorder = backorder.map(v => v + 0.4);
+          forecast -= 0.7;
+          salesVsProd = salesVsProd.map(v => v + 0.8);
+          break;
+        case "cheese":
+          fillRate = fillRate.map(v => v + 1.2);
+          stockOut = stockOut.map(v => v - 0.6);
+          backorder = backorder.map(v => v - 0.3);
+          forecast += 1.1;
+          salesVsProd = salesVsProd.map(v => v - 0.5);
+          break;
+        case "yogurt":
+          fillRate = fillRate.map(v => v - 1.5);
+          stockOut = stockOut.map(v => v + 1.2);
+          backorder = backorder.map(v => v + 0.7);
+          forecast -= 1.3;
+          salesVsProd = salesVsProd.map(v => v + 1.1);
+          break;
+        case "ice-cream":
+          fillRate = fillRate.map(v => v + 0.9);
+          stockOut = stockOut.map(v => v - 0.4);
+          backorder = backorder.map(v => v - 0.2);
+          forecast += 0.8;
+          salesVsProd = salesVsProd.map(v => v - 0.3);
+          break;
+      }
+    }
+
+    // Channel adjustments
+    switch (channel) {
+      case "retail":
+        fillRate = fillRate.map(v => v + 1.3);
+        stockOut = stockOut.map(v => v - 0.8);
+        backorder = backorder.map(v => v - 0.4);
+        forecast += 1.5;
+        salesVsProd = salesVsProd.map(v => v - 0.9);
+        break;
+      case "wholesale":
+        fillRate = fillRate.map(v => v - 0.7);
+        stockOut = stockOut.map(v => v + 0.5);
+        backorder = backorder.map(v => v + 0.3);
+        forecast -= 0.8;
+        salesVsProd = salesVsProd.map(v => v + 0.6);
+        break;
+      case "online":
+        fillRate = fillRate.map(v => v - 2.1);
+        stockOut = stockOut.map(v => v + 1.8);
+        backorder = backorder.map(v => v + 1.2);
+        forecast -= 2.5;
+        salesVsProd = salesVsProd.map(v => v + 2.3);
+        break;
+    }
+
+    // Ensure values stay within reasonable bounds
+    fillRate = fillRate.map(v => Math.max(75, Math.min(99, v)));
+    stockOut = stockOut.map(v => Math.max(0.5, Math.min(8, v)));
+    backorder = backorder.map(v => Math.max(0.5, Math.min(5, v)));
+    forecast = Math.max(75, Math.min(95, forecast));
+
     return {
-      fillRate: [base + 1, base + 2, base + 3, base + 4.2],
-      stockOut: [5, 8, 3, 4, 3].map((v, i) => Math.max(1, v + Math.round((base - 90) / 2) + i)),
-      backorder: [1.8, 2.1, 2.4, 1.9, 2.2, 2.4].map(v => v + (base - 90) * 0.05),
-      salesVsProd: [15.2, -1.8, -0.5, -0.3, -0.8, 11.8].map(v => v + (base - 90) * 0.2),
-      forecast: base - 1.5,
+      fillRate,
+      stockOut,
+      backorder,
+      salesVsProd,
+      forecast,
     };
   }
 
@@ -183,7 +428,7 @@ export default function DemandSupplyTab({ timeRange }: DemandSupplyTabProps) {
             </CardTitle>
             <div className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-red-600">
-                {valueMap.stockOutInstancesPerSku ?? "--"}
+                {valueMap.stockOutInstancesPerSku !== undefined ? valueMap.stockOutInstancesPerSku.toFixed(2) : "--"}
               </span>
               <ArrowDown className="w-4 h-4 text-red-600" />
             </div>
