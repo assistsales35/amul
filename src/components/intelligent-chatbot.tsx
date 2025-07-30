@@ -56,12 +56,7 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       id: "welcome",
       sender: "bot",
       content: "Welcome, Managing Director. I'm your AI assistant for quick insights and decision support. How can I help you today?",
-      timestamp: new Date(),
-      followUps: [
-        "What are our key financial metrics?",
-        "Show me critical issues",
-        "Analyze market opportunities"
-      ]
+      timestamp: new Date()
     }
   ];
 
