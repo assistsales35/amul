@@ -58,22 +58,22 @@ const nameToKey: Record<string, string> = {
   "Daily Demand Spike Events vs Response Time": "dailyDemandSpikeResponseTime",
 };
 
-export function useDashboardData(category: string, timeRange: string) {
+export function useDashboardData(category: string, timeRange: string, region?: string) {
   const { data: metrics, isLoading, error } = useQuery({
-    queryKey: ["/api/dashboard/metrics/latest"],
+    queryKey: ["/api/dashboard/metrics/latest", region],
   });
 
   const { data: targets } = useQuery({
-    queryKey: ["/api/dashboard/targets"],
+    queryKey: ["/api/dashboard/targets", region],
   });
 
   // Build a value map for the requested category directly from the KPI JSON
   const valueMap = (() => {
     const section = sectionByCategory[category];
     if (!section) return {};
-
+    // If region is not 'all', filter by region (assuming k.region exists)
     return (kpis as KPI[])
-      .filter((k) => k.section === section && nameToKey[k.name])
+      .filter((k) => k.section === section && nameToKey[k.name] && (region === 'all' || !region ? true : k.region === region))
       .reduce<Record<string, number>>((acc, k) => {
         acc[nameToKey[k.name]] = k.value;
         return acc;
@@ -84,9 +84,8 @@ export function useDashboardData(category: string, timeRange: string) {
   const kpiMeta = (() => {
     const section = sectionByCategory[category];
     if (!section) return {};
-
     return (kpis as KPI[])
-      .filter((k) => k.section === section && nameToKey[k.name])
+      .filter((k) => k.section === section && nameToKey[k.name] && (region === 'all' || !region ? true : k.region === region))
       .reduce<Record<string, { description: string; unit: string }>>((acc, k) => {
         acc[nameToKey[k.name]] = {
           description: k.description,
