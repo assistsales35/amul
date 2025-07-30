@@ -183,33 +183,47 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
   // Hub data
   const hubData: HubData[] = [
     {
-      name: "Bangalore Hub",
+      name: "North Zone",
       status: "HIGH RISK",
       riskLevel: "critical",
       issues: [
         "Stockout rate: 52 orders (↑35%)",
-        "Hub assignment errors: 41% of total",
-        "Order drop-off rate: 9.1% (113 orders)"
-      ]
-    },
-    {
-      name: "Hyderabad Hub",
-      status: "MODERATE RISK",
-      riskLevel: "warning",
-      issues: [
         "Oversold inventory: 38 orders",
-        "Support ticket share: 25% of total",
+        "Order drop-off rate: 9.1% (113 orders)",
         "Delivery delay: 3.2 hours avg."
       ]
     },
     {
-      name: "Ahmedabad Hub",
+      name: "South Zone",
       status: "MODERATE RISK",
       riskLevel: "warning",
       issues: [
-        "Sync lag: 19 mins (↑5 mins)",
+        "Stockout rate: 27 orders (↑18%)",
         "Oversold inventory: 22 orders",
-        "Logistics cost increase: ₹28K"
+        "Order drop-off rate: 5.4% (67 orders)",
+        "Delivery delay: 2.1 hours avg."
+      ]
+    },
+    {
+      name: "West Zone",
+      status: "MODERATE RISK",
+      riskLevel: "warning",
+      issues: [
+        "Stockout rate: 19 orders (↑12%)",
+        "Oversold inventory: 15 orders",
+        "Order drop-off rate: 4.2% (39 orders)",
+        "Delivery delay: 1.7 hours avg."
+      ]
+    },
+    {
+      name: "East Zone",
+      status: "LOW RISK",
+      riskLevel: "info",
+      issues: [
+        "Stockout rate: 4 orders (↑3%)",
+        "Oversold inventory: 3 orders",
+        "Order drop-off rate: 1.2% (8 orders)",
+        "Delivery delay: 0.8 hours avg."
       ]
     }
   ];
@@ -523,23 +537,22 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
         </div>
 
         {/* Hub Impact Analysis */}
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Hub Impact Analysis</h3>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Region Impact Analysis</h3>
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {hubData.map((hub, index) => (
               <div key={hub.name} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-bold text-slate-800">{hub.name}</h4>
-                  <div className={`flex items-center ${hub.riskLevel === 'critical' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'} text-xs font-semibold px-2.5 py-0.5 rounded-full`}>
+                  <div className={`flex items-center ${hub.riskLevel === 'critical' ? 'bg-red-100 text-red-800' : hub.riskLevel === 'warning' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'} text-xs font-semibold px-2.5 py-0.5 rounded-full`}>
                     <TrendingUp className="h-3 w-3 mr-1" />
                     {hub.status}
                   </div>
                 </div>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-2 text-sm list-disc list-inside">
                   {hub.issues.map((issue, issueIndex) => (
-                    <li key={issueIndex} className="flex items-start">
-                      <ChevronRight className={`h-5 w-5 ${hub.riskLevel === 'critical' ? 'text-red-600' : 'text-amber-600'} mr-2 flex-shrink-0`} />
-                      <span>{issue}</span>
+                    <li key={issueIndex}>
+                      {issue}
                     </li>
                   ))}
                 </ul>
