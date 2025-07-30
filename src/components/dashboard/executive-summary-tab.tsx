@@ -369,6 +369,18 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
     });
   };
 
+  const handleEmergencyProtocol = () => {
+    onTriggerChatbot?.({
+      type: "emergency",
+      insight: "emergency_protocol",
+      context: [
+        { type: 'system', message: '• ₹9.6 lakhs at risk due to inventory sync delays' },
+        { type: 'system', message: '• Multiple critical issues detected across hubs' },
+        { type: 'system', message: '• Immediate executive intervention required' }
+      ]
+    });
+  };
+
   const currentAlert = carouselAlerts[currentAlertIndex];
 
   return (
@@ -504,7 +516,7 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
                 ))}
               </div>
           <div className="mt-4 flex justify-center">
-            <Button className="bg-white text-slate-800 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors">
+            <Button className="bg-white text-slate-800 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors" onClick={handleEmergencyProtocol}>
               Implement Emergency Protocol
             </Button>
           </div>

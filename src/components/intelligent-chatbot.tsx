@@ -14,7 +14,7 @@ type MessageType = {
   metrics?: {
     label: string;
     value: string;
-    change: number;
+    // change?: number;
   }[];
   followUps?: string[];
 };
@@ -40,7 +40,7 @@ interface KPI {
   description: string;
   value: number;
   trend?: string;
-  change?: number;
+  // change?: number;
   target?: number;
   priority?: string;
   benchmark?: string;
@@ -126,6 +126,34 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       });
       
       setMessages(contextMessages);
+    } else if (initialContext?.type === 'emergency' && initialContext?.context) {
+      const emergencyMessages: MessageType[] = [
+        {
+          id: "welcome",
+          sender: "bot",
+          content: "Welcome, Managing Director. I'm your AI assistant for quick insights and decision support. How can I help you today?",
+          timestamp: new Date(),
+          followUps: [
+            "What are our key financial metrics?",
+            "Show me critical issues",
+            "Analyze market opportunities"
+          ]
+        },
+        {
+          id: "emergency-actions",
+          sender: "bot",
+          content: "As Managing Director, here are your immediate action options:",
+          timestamp: new Date(),
+          followUps: [
+            "📞 Call for urgent meeting",
+            "📊 Generate 3-month report",
+            // "📅 Send calendar invite",
+            "⏰ Schedule future meeting"
+          ]
+        }
+      ];
+      
+      setMessages(emergencyMessages);
     }
   }, [initialContext]);
 
@@ -230,7 +258,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       const metrics = financialKPIs.slice(0, 4).map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
-        change: kpi.change || 0
       }));
       
       return {
@@ -254,7 +281,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       const metrics = criticalKPIs.slice(0, 3).map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
-        change: kpi.change || 0
       }));
       
       return {
@@ -274,7 +300,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       const metrics = productionKPIs.slice(0, 3).map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
-        change: kpi.change || 0
       }));
       
       return {
@@ -294,7 +319,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       const metrics = marketKPIs.slice(0, 3).map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
-        change: kpi.change || 0
       }));
       
       return {
@@ -313,9 +337,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here's our supply chain and logistics performance:",
         metrics: [
-          { label: "On-Time Delivery", value: "94.2%", change: 2.1 },
-          { label: "Inventory Turnover", value: "8.5x", change: -0.3 },
-          { label: "Supplier Performance", value: "92.8%", change: 1.5 }
+          { label: "On-Time Delivery", value: "94.2%"},
+          { label: "Inventory Turnover", value: "8.5x"},
+          { label: "Supplier Performance", value: "92.8%"}
         ],
         followUps: [
           "Any cold chain issues?",
@@ -331,7 +355,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       const metrics = underperformingKPIs.map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
-        change: kpi.change || 0
       }));
       
       return {
@@ -350,9 +373,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here's how we're tracking against our strategic targets:",
         metrics: [
-          { label: "Revenue Target", value: "85%", change: 5.2 },
-          { label: "Market Share Goal", value: "92%", change: 3.1 },
-          { label: "Efficiency Target", value: "78%", change: -2.3 }
+          { label: "Revenue Target", value: "85%"},
+          { label: "Market Share Goal", value: "92%"},
+          { label: "Efficiency Target", value: "78%"}
         ],
         followUps: [
           "What's our progress timeline?",
@@ -367,9 +390,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here's our overall operational health summary:",
         metrics: [
-          { label: "System Uptime", value: "99.2%", change: 0.1 },
-          { label: "Customer Satisfaction", value: "4.6/5", change: 0.2 },
-          { label: "Employee Productivity", value: "87%", change: 1.8 }
+          { label: "System Uptime", value: "99.2%"},
+          { label: "Customer Satisfaction", value: "4.6/5"},
+          { label: "Employee Productivity", value: "87%"}
         ],
         followUps: [
           "Show me detailed metrics",
@@ -395,14 +418,78 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
   const handleInsightQuery = (query: string) => {
     const lowerQuery = query.toLowerCase();
     
+    // Emergency Protocol Actions
+    if (lowerQuery.includes('call for urgent meeting') || lowerQuery.includes('urgent meeting')) {
+      return {
+        content: "🚨 URGENT MEETING INITIATED - I've sent immediate notifications to all department heads and key stakeholders. Meeting scheduled for the next available slot.",
+        metrics: [
+          { label: "Notifications Sent", value: "12"},
+          { label: "Meeting Status", value: "Scheduled"}
+        ],
+        followUps: [
+          "📋 Prepare meeting agenda",
+          "📊 Get latest metrics",
+          "👥 Add specific attendees"
+        ]
+      };
+    }
+    
+    if (lowerQuery.includes('generate 3-month report') || lowerQuery.includes('3-month report')) {
+      return {
+        content: "📊 3-MONTH REPORT GENERATION - I'm compiling comprehensive data including financial impact, trend analysis, and predictive insights.",
+        metrics: [
+          { label: "Report Sections", value: "8"},
+          { label: "Data Points", value: "2,450"},
+          { label: "Generation Time", value: "3 mins"}
+        ],
+        followUps: [
+          "📈 Add executive summary",
+          "🎯 Focus on specific metrics",
+          "📤 Send to stakeholders"
+        ]
+      };
+    }
+    
+    // if (lowerQuery.includes('send calendar invite') || lowerQuery.includes('calendar invite')) {
+    //   return {
+    //     content: "📅 CALENDAR INVITE SENT - Emergency protocol meeting invitation has been sent to all relevant executives and department heads.",
+    //     metrics: [
+    //       { label: "Invites Sent", value: "15", change: 0 },
+    //       { label: "Acceptance Rate", value: "87%", change: 0 },
+    //       { label: "Meeting Duration", value: "90 mins", change: 0 }
+    //     ],
+    //     followUps: [
+    //       "📋 Set meeting agenda",
+    //       "👥 Add more attendees",
+    //       "⏰ Adjust meeting time"
+    //     ]
+    //   };
+    // }
+    
+    if (lowerQuery.includes('schedule future meeting') || lowerQuery.includes('future meeting')) {
+      return {
+        content: "⏰ FUTURE MEETING SCHEDULED - Strategic planning session has been scheduled for next week to address long-term solutions.",
+        metrics: [
+          { label: "Scheduled Date", value: "Next Week"},
+          { label: "Duration", value: "2 hours"},
+          { label: "Attendees", value: "8"}
+        ],
+        followUps: [
+          "📋 Prepare strategic agenda",
+          "📊 Include trend analysis",
+          "🎯 Set clear objectives"
+        ]
+      };
+    }
+    
     // Overselling
     if (lowerQuery.includes('overselling') || lowerQuery.includes('oversold')) {
       return {
         content: "Here are the details about the overselling issue:",
         metrics: [
-          { label: "Oversold Orders", value: "127", change: 35 },
-          { label: "Refund Amount", value: "₹3.2L", change: -100 },
-          { label: "Sync Delay", value: "18 mins", change: 6 }
+          { label: "Oversold Orders", value: "127"},
+          { label: "Refund Amount", value: "₹3.2L"},
+          { label: "Sync Delay", value: "18 mins"}
         ],
         followUps: [
           "What's causing the overselling?",
@@ -417,9 +504,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the stockout cancellation details:",
         metrics: [
-          { label: "Cancellations", value: "52 orders", change: 35 },
-          { label: "Revenue Loss", value: "₹1.8L", change: -100 },
-          { label: "Bangalore Impact", value: "Highest", change: 0 }
+          { label: "Cancellations", value: "52 orders"},
+          { label: "Revenue Loss", value: "₹1.8L"},
+          { label: "Bangalore Impact", value: "Highest"}
         ],
         followUps: [
           "Why are stockouts increasing?",
@@ -434,9 +521,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the support ticket details:",
         metrics: [
-          { label: "Tickets Raised", value: "78", change: 120 },
-          { label: "Resolution Time", value: "4.3 hrs", change: 73 },
-          { label: "Customer Impact", value: "High", change: 0 }
+          { label: "Tickets Raised", value: "78"},
+          { label: "Resolution Time", value: "4.3 hrs"},
+          { label: "Customer Impact", value: "High"}
         ],
         followUps: [
           "What's causing the ticket spike?",
@@ -451,9 +538,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the inventory sync lag details:",
         metrics: [
-          { label: "Current Lag", value: "21 mins", change: 6 },
-          { label: "SLA Breach", value: "6 mins", change: 0 },
-          { label: "Affected Zones", value: "Bangalore, Ahmedabad", change: 0 }
+          { label: "Current Lag", value: "21 mins"},
+          { label: "SLA Breach", value: "6 mins"},
+          { label: "Affected Zones", value: "Bangalore, Ahmedabad"}
         ],
         followUps: [
           "What's causing the sync delays?",
@@ -468,9 +555,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the hub assignment error details:",
         metrics: [
-          { label: "Assignment Errors", value: "93 orders", change: 41 },
-          { label: "Delivery Delay", value: "9.6 hrs", change: 0 },
-          { label: "Revenue Impact", value: "₹2.1L", change: -100 }
+          { label: "Assignment Errors", value: "93 orders"},
+          { label: "Delivery Delay", value: "9.6 hrs"},
+          { label: "Revenue Impact", value: "₹2.1L"}
         ],
         followUps: [
           "What's causing the assignment errors?",
@@ -485,9 +572,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the delivery delay details:",
         metrics: [
-          { label: "Avg Delay", value: "3.2 hrs", change: 0 },
-          { label: "Customer Impact", value: "18%", change: 18 },
-          { label: "Worst Routes", value: "Pune, Bangalore", change: 0 }
+          { label: "Avg Delay", value: "3.2 hrs"},
+          { label: "Customer Impact", value: "18%"},
+          { label: "Worst Routes", value: "Pune, Bangalore"}
         ],
         followUps: [
           "What's causing the delays?",
@@ -502,9 +589,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the logistics cost details:",
         metrics: [
-          { label: "Additional Cost", value: "₹85K", change: 0 },
-          { label: "Rerouting Cost", value: "62%", change: 0 },
-          { label: "Eastern Region", value: "₹32K", change: 0 }
+          { label: "Additional Cost", value: "₹85K"},
+          { label: "Rerouting Cost", value: "62%"},
+          { label: "Eastern Region", value: "₹32K"}
         ],
         followUps: [
           "What's causing the cost increase?",
@@ -519,9 +606,9 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       return {
         content: "Here are the order drop-off details:",
         metrics: [
-          { label: "Drop-off Rate", value: "9.1%", change: 0 },
-          { label: "Affected Orders", value: "113", change: 0 },
-          { label: "Revenue Loss", value: "₹4.5L", change: -100 }
+          { label: "Drop-off Rate", value: "9.1%"},
+          { label: "Affected Orders", value: "113"},
+          { label: "Revenue Loss", value: "₹4.5L"}
         ],
         followUps: [
           "What's causing the drop-offs?",
@@ -569,8 +656,31 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
 
   // Handle quick insight button click
   const handleQuickInsight = (query: string) => {
-    setInputValue(query);
-    setTimeout(() => handleSendMessage(), 100);
+    // Add user message immediately
+    const userMessage: MessageType = {
+      id: Date.now().toString(),
+      sender: "user",
+      content: query,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
+    
+    // Simulate AI processing delay and generate response
+    setTimeout(() => {
+      const responseData = generateResponse(query);
+      const botResponse: MessageType = {
+        id: Date.now().toString(),
+        sender: "bot",
+        content: responseData.content,
+        timestamp: new Date(),
+        metrics: responseData.metrics,
+        followUps: responseData.followUps
+      };
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 1000);
   };
 
   // Auto-scroll to bottom when messages change
@@ -651,9 +761,11 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
                             <span className="font-medium">{metric.label}</span>
                             <div className="flex items-center space-x-1">
                               <span className="font-bold">{metric.value}</span>
-                              <span className={`text-xs ${metric.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {metric.change >= 0 ? '+' : ''}{metric.change}%
-                              </span>
+                              {/* {metric.change !== undefined && ( */}
+                              {/* <span className={`text-xs ${metric.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                  {metric.change >= 0 ? '+' : ''}{metric.change}%
+                                </span> */}
+                              {/* )} */}
                             </div>
                           </div>
                         ))}
