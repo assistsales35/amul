@@ -32,6 +32,7 @@ import {
 
 interface ExecutiveSummaryTabProps {
   timeRange: string;
+  onTriggerChatbot?: (context: any) => void;
 }
 
 interface Alert {
@@ -74,11 +75,8 @@ interface CarouselAlert {
   severity: 'critical' | 'warning' | 'info';
 }
 
-export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabProps) {
+export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: ExecutiveSummaryTabProps) {
   const [currentTime, setCurrentTime] = useState<string>("Loading...");
-  const [chatPopup, setChatPopup] = useState(false);
-  const [chatContent, setChatContent] = useState<any[]>([]);
-  const [chatInput, setChatInput] = useState("");
   const [activeInsight, setActiveInsight] = useState<string>("");
   const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -311,76 +309,44 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
   // Chat data
   const chatData: Record<string, any[]> = {
     overselling: [
-      { type: 'system', message: 'Overselling Alert Details' },
-      { type: 'system', message: '• 127 orders were oversold today due to inventory sync delays' },
+      { type: 'system', message: '• 127 orders oversold today due to inventory sync delays' },
       { type: 'system', message: '• Total refund amount: ₹3.2 lakhs' },
-      { type: 'system', message: '• Average inventory sync delay: 18 minutes' },
-      { type: 'system', message: '• Most affected categories: Electronics (42%), Fashion (31%)' },
-      { type: 'system', message: '• Primary cause: Inventory system lag during peak hours (11AM-2PM)' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Average sync delay: 18 minutes' }
     ],
     stockouts: [
-      { type: 'system', message: 'Stockout Cancellations Details' },
-      { type: 'system', message: '• Cancellations due to stockouts increased 35% from baseline' },
-      { type: 'system', message: '• Bangalore hub most affected with 52 cancelled orders' },
-      { type: 'system', message: '• Estimated revenue loss: ₹1.8 lakhs' },
-      { type: 'system', message: '• Top affected products: Smartphones, Premium Apparel' },
-      { type: 'system', message: '• Recommended action: Audit replenishment cycles and product velocity' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Stockout cancellations increased 35% from baseline' },
+      { type: 'system', message: '• Bangalore hub most affected: 52 cancelled orders' },
+      { type: 'system', message: '• Estimated revenue loss: ₹1.8 lakhs' }
     ],
     tickets: [
-      { type: 'system', message: 'Support Tickets Details' },
       { type: 'system', message: '• 78 customer support tickets raised today' },
       { type: 'system', message: '• 2.2x increase from usual daily average' },
-      { type: 'system', message: '• Primary complaint: Items showing as available but unavailable at checkout' },
-      { type: 'system', message: '• Average resolution time: 4.3 hours (73% above normal)' },
-      { type: 'system', message: '• Recommended action: Deploy auto-response and initiate sync diagnostics' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Primary complaint: Items available but unavailable at checkout' }
     ],
     synclag: [
-      { type: 'system', message: 'Inventory Sync Lag Details' },
       { type: 'system', message: '• Current average sync lag: 21 minutes' },
-      { type: 'system', message: '• Exceeding acceptable SLA by 6 minutes' },
-      { type: 'system', message: '• Primary affected zones: Bangalore (24 min) & Ahmedabad (19 min)' },
-      { type: 'system', message: '• Root cause analysis: Database query optimization issues during peak load' },
-      { type: 'system', message: '• Recommended action: Revisit integration throughput and update schedules' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Exceeding SLA by 6 minutes' },
+      { type: 'system', message: '• Primary affected zones: Bangalore (24 min) & Ahmedabad (19 min)' }
     ],
     hubmismatch: [
-      { type: 'system', message: 'Hub Assignment Error Details' },
       { type: 'system', message: '• 93 orders with hub assignment errors today' },
       { type: 'system', message: '• 41% originated from Bangalore hub' },
-      { type: 'system', message: '• Cumulative delivery delay: 9.6 hours' },
-      { type: 'system', message: '• Estimated delayed revenue: ₹2.1 lakhs' },
-      { type: 'system', message: '• Recommended action: Audit hub assignment logic, adjust regional stock buffers' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Estimated delayed revenue: ₹2.1 lakhs' }
     ],
     deliverydelay: [
-      { type: 'system', message: 'Delivery Delay Details' },
       { type: 'system', message: '• Average delivery delay for rerouted orders: 3.2 hours' },
       { type: 'system', message: '• Highest delay routes: Pune (4.1 hrs) and Bangalore (3.8 hrs)' },
-      { type: 'system', message: '• Customer satisfaction impact: 18% increase in negative feedback' },
-      { type: 'system', message: '• Recommended action: Check alternate hub inventory and last-mile scheduling' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Customer satisfaction impact: 18% increase in negative feedback' }
     ],
     logisticscost: [
-      { type: 'system', message: 'Additional Logistics Cost Details' },
       { type: 'system', message: '• Extra rerouting cost today: ₹85,000' },
       { type: 'system', message: '• Primary cause: Mismatch in hub inventory' },
-      { type: 'system', message: '• Most affected region: Eastern (₹32,000)' },
-      { type: 'system', message: '• Cost breakdown: Express shipping (62%), Additional handling (28%), Other (10%)' },
-      { type: 'system', message: '• Recommended action: Consider predictive replenishment or hub capacity reshuffling' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Most affected region: Eastern (₹32,000)' }
     ],
     dropoff: [
-      { type: 'system', message: 'Order Drop-off Details' },
       { type: 'system', message: '• Current drop-off rate: 9.1%' },
       { type: 'system', message: '• Total affected orders: 113' },
-      { type: 'system', message: '• Potential revenue loss: ₹4.5 lakhs' },
-      { type: 'system', message: '• Highest impact location: Bangalore' },
-      { type: 'system', message: '• Customer segment most affected: Premium tier (58%)' },
-      { type: 'system', message: '• Recommended action: Send alerts for time-sensitive SKUs with delivery guarantees' },
-      { type: 'system', message: 'What specific information would you like about this issue?' }
+      { type: 'system', message: '• Potential revenue loss: ₹4.5 lakhs' }
     ]
   };
 
@@ -394,45 +360,13 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
     'help': 'You can ask about causes, recommended fixes, financial impact, specific hubs like Bangalore, or details about the inventory sync lag. You can also ask for specific action plans to address these issues.'
   };
 
-  const handleQuickActions = (insight: string) => {
+  const handleKnowMore = (insight: string) => {
     setActiveInsight(insight);
-    setChatContent(chatData[insight] || []);
-    setChatPopup(true);
-  };
-
-  const handleCloseChat = () => {
-    setChatPopup(false);
-    setChatContent([]);
-    setChatInput("");
-  };
-
-  const handleSendMessage = () => {
-    if (!chatInput.trim()) return;
-
-    const userMessage = { type: 'user', message: chatInput };
-    setChatContent(prev => [...prev, userMessage]);
-    setChatInput("");
-
-    // Simple response logic
-    setTimeout(() => {
-      let response = 'I don\'t have specific information about that. Try asking about causes, fixes, impact, or specific hubs like Bangalore.';
-      
-      // Check for keywords in the message
-      for (const [keyword, reply] of Object.entries(responses)) {
-        if (chatInput.toLowerCase().includes(keyword.toLowerCase())) {
-          response = reply;
-          break;
-        }
-      }
-      
-      setChatContent(prev => [...prev, { type: 'system', message: response }]);
-    }, 1000);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
+    onTriggerChatbot?.({
+      type: "insight",
+      insight: insight,
+      context: chatData[insight] || []
+    });
   };
 
   const currentAlert = carouselAlerts[currentAlertIndex];
@@ -542,9 +476,9 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                 <Button 
                   variant="ghost" 
                   className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
-                  onClick={() => handleQuickActions(card.insight)}
+                  onClick={() => handleKnowMore(card.insight)}
                 >
-                  Quick Actions
+                  Know More
                   <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
                       </div>
@@ -626,7 +560,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
                 <Button 
                   variant="ghost" 
                   className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
-                  onClick={() => handleQuickActions(card.insight)}
+                  onClick={() => handleKnowMore(card.insight)}
                 >
                   Know More
                   <ArrowRight className="h-4 w-4 ml-1" />
@@ -638,48 +572,7 @@ export default function ExecutiveSummaryTab({ timeRange }: ExecutiveSummaryTabPr
       </main>
 
       {/* Chat Popup */}
-      {chatPopup && (
-        <div className="fixed bottom-0 right-0 mb-4 mr-4 w-96 bg-white rounded-t-xl shadow-2xl z-50">
-          <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-t-xl px-6 py-4 flex justify-between items-center">
-            <h3 className="text-white font-semibold">Inventory Assistant</h3>
-            <Button variant="ghost" onClick={handleCloseChat} className="text-white hover:text-slate-300">
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
-          <div className="p-4 h-80 overflow-y-auto">
-            {chatContent.map((msg, index) => (
-              <div key={index} className="mb-4">
-                {msg.type === 'user' ? (
-                  <div className="flex justify-end">
-                    <div className="bg-slate-700 text-white rounded-lg py-2 px-4 max-w-xs">
-                      {msg.message}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg py-2 px-4 max-w-xs">
-                      {msg.message}
-                    </div>
-                  </div>
-                )}
-              </div>
-                ))}
-              </div>
-          <div className="border-t p-4 flex">
-            <Input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="flex-1 border rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500"
-              placeholder="Ask about this issue..."
-            />
-            <Button onClick={handleSendMessage} className="bg-slate-700 text-white rounded-r-lg px-4 py-2 hover:bg-slate-800">
-              <Send className="h-5 w-5" />
-            </Button>
-          </div>
-              </div>
-      )}
+      {/* The chat popup is removed as per the edit hint. */}
     </div>
   );
 }
