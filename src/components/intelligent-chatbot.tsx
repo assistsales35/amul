@@ -56,7 +56,13 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       id: "welcome",
       sender: "bot",
       content: "Welcome, Managing Director. I'm your AI assistant for quick insights and decision support. How can I help you today?",
-      timestamp: new Date()
+      timestamp: new Date(),
+      followUps: [
+        "📊 Market Analysis",
+        "💬 Customer Sentiments", 
+        "💰 Financial Performance",
+        "🚚 Inventory & Logistics Health"
+      ]
     }
   ];
 
@@ -79,9 +85,10 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
           content: "Welcome, Managing Director. I'm your AI assistant for quick insights and decision support. How can I help you today?",
           timestamp: new Date(),
           followUps: [
-            "What are our key financial metrics?",
-            "Show me critical issues",
-            "Analyze market opportunities"
+            "📊 Market Analysis",
+            "💬 Customer Sentiments", 
+            "💰 Financial Performance",
+            "🚚 Inventory & Logistics Health"
           ]
         },
         {
@@ -129,9 +136,10 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
           content: "Welcome, Managing Director. I'm your AI assistant for quick insights and decision support. How can I help you today?",
           timestamp: new Date(),
           followUps: [
-            "What are our key financial metrics?",
-            "Show me critical issues",
-            "Analyze market opportunities"
+            "📊 Market Analysis",
+            "💬 Customer Sentiments", 
+            "💰 Financial Performance",
+            "🚚 Inventory & Logistics Health"
           ]
         },
         {
@@ -308,6 +316,74 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
       };
     }
     
+    // Customer Sentiments
+    if (lowerQuery.includes('customer') || lowerQuery.includes('sentiment') || lowerQuery.includes('saying')) {
+      return {
+        content: "Here's what customers are saying about Amul:",
+        metrics: [
+          { label: "Customer Satisfaction", value: "4.6/5"},
+          { label: "Net Promoter Score", value: "72"},
+          { label: "Social Media Sentiment", value: "85% Positive"}
+        ],
+        followUps: [
+          "What are the main complaints?",
+          "Show me positive feedback",
+          "How can we improve satisfaction?"
+        ]
+      };
+    }
+    
+    // Customer Complaints
+    if (lowerQuery.includes('complaint') || lowerQuery.includes('complaints')) {
+      return {
+        content: "Here are the main customer complaints we're tracking:",
+        metrics: [
+          { label: "Delivery Delays", value: "32%"},
+          { label: "Product Availability", value: "28%"},
+          { label: "Packaging Issues", value: "15%"}
+        ],
+        followUps: [
+          "What's causing delivery delays?",
+          "How can we reduce complaints?",
+          "Show me complaint trends"
+        ]
+      };
+    }
+    
+    // Positive Feedback
+    if (lowerQuery.includes('positive') || lowerQuery.includes('feedback') || lowerQuery.includes('good')) {
+      return {
+        content: "Here's the positive feedback from our customers:",
+        metrics: [
+          { label: "Product Quality", value: "94% Positive"},
+          { label: "Taste & Freshness", value: "91% Positive"},
+          { label: "Brand Trust", value: "89% Positive"}
+        ],
+        followUps: [
+          "What products get most praise?",
+          "Show me customer testimonials",
+          "How can we leverage this?"
+        ]
+      };
+    }
+    
+    // Improve Satisfaction
+    if (lowerQuery.includes('improve') || lowerQuery.includes('satisfaction') || lowerQuery.includes('better')) {
+      return {
+        content: "Here are the key areas to improve customer satisfaction:",
+        metrics: [
+          { label: "Faster Delivery"},
+          { label: "Better Communication"},
+          { label: "Product Variety"}
+        ],
+        followUps: [
+          "How to improve delivery plan?",
+          "Show me communication strategies",
+          "How can we measure improvement?"
+        ]
+      };
+    }
+    
     // Market Analysis
     if (lowerQuery.includes('market') || lowerQuery.includes('competitive') || lowerQuery.includes('share')) {
       const marketKPIs = kpiData.filter(kpi => kpi.section === 'Sales, Revenue & Market Insights');
@@ -346,7 +422,7 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
     
     // KPI Performance
     if (lowerQuery.includes('kpi') || lowerQuery.includes('performance') || lowerQuery.includes('metrics')) {
-      const underperformingKPIs = kpiData.filter(kpi => (kpi.change || 0) < 0).slice(0, 3);
+      const underperformingKPIs = kpiData.slice(0, 3); // Just take first 3 KPIs instead of filtering by change
       const metrics = underperformingKPIs.map(kpi => ({
         label: kpi.name,
         value: `${kpi.value}${kpi.unit}`,
@@ -651,11 +727,23 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
 
   // Handle quick insight button click
   const handleQuickInsight = (query: string) => {
+    // Map follow-up button text to actual queries
+    let actualQuery = query;
+    if (query.includes("📊 Market Analysis")) {
+      actualQuery = "Show me market share and competitive analysis";
+    } else if (query.includes("💬 Customer Sentiments")) {
+      actualQuery = "What are customers saying about us?";
+    } else if (query.includes("💰 Financial Performance")) {
+      actualQuery = "How are we performing financially?";
+    } else if (query.includes("🚚 Inventory & Logistics Health")) {
+      actualQuery = "What's the current status of our inventory and logistics?";
+    }
+    
     // Add user message immediately
     const userMessage: MessageType = {
       id: Date.now().toString(),
       sender: "user",
-      content: query,
+      content: actualQuery,
       timestamp: new Date()
     };
     
@@ -664,7 +752,7 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
     
     // Simulate AI processing delay and generate response
     setTimeout(() => {
-      const responseData = generateResponse(query);
+      const responseData = generateResponse(actualQuery);
       const botResponse: MessageType = {
         id: Date.now().toString(),
         sender: "bot",
@@ -704,28 +792,6 @@ export default function IntelligentChatbot({ isVisible, onClose, initialContext 
             <X className="h-4 w-4" />
           </Button>
         )}
-      </div>
-      
-      {/* Quick insights */}
-      <div className="p-4 border-b bg-slate-50">
-        <div className="text-sm font-medium mb-3">Quick Insights</div>
-        <div className="grid grid-cols-2 gap-2">
-          {quickInsights.map((insight, index) => {
-            const Icon = insight.icon;
-            return (
-              <Button 
-                key={index} 
-                variant="outline" 
-                size="sm" 
-                className="bg-white hover:bg-slate-50 text-xs py-1.5 px-2 h-auto leading-tight" 
-                onClick={() => handleQuickInsight(insight.query)}
-              >
-                <Icon className={`w-3 h-3 mr-1 ${insight.color}`} />
-                <span className="truncate">{insight.label}</span>
-              </Button>
-            );
-          })}
-        </div>
       </div>
       
       {/* Messages area */}
