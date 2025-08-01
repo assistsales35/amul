@@ -233,7 +233,7 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
     {
       id: "overselling",
       type: "critical",
-      title: "₹3.2L Lost to Overselling Today",
+      title: "₹3.2L Lost to Overbooking Today",
       description: "127 orders placed during inventory lag window were oversold today, resulting in ₹3.2 lakh refunds. Average inventory sync delay: 18 mins.",
       impact: "Majority impact: Bangalore, Hyderabad hubs",
       insight: "overselling"
@@ -486,7 +486,7 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
         {/* Insights Section 1: Inventory Sync & Overselling */}
         <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
           <AlertTriangle className="h-6 w-6 mr-2 text-slate-600" />
-          Inventory Sync Delay & Overselling
+          Inventory Sync Delay & Overbooking
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
