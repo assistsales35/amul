@@ -477,8 +477,8 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
               <AlertCircle className="h-8 w-8 text-amber-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-800">₹9.6 Lakhs at Risk Today</h2>
-              <p className="text-slate-700 mt-1">Immediate action required: Inventory sync delays causing significant revenue loss and customer dissatisfaction</p>
+              <h2 className="text-xl font-bold text-[#0043ce]">₹9.6 Lakhs at Risk Today</h2>
+              <p className="text-[#0043ce] mt-1">Immediate action required: Inventory sync delays causing significant revenue loss and customer dissatisfaction</p>
         </div>
       </div>
         </div>
