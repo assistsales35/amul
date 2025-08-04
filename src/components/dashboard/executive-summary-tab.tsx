@@ -300,22 +300,22 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
   const actionPlans: ActionPlan[] = [
     {
       title: "Immediate Sync Interval Reduction",
-      description: "Reduce sync intervals from 15 mins to 5 mins for all high-velocity SKUs, especially in Bangalore & Hyderabad hubs.",
+      description: "Reduce sync intervals from 15 mins to 5 mins for all high-velocity SKUs, especially in Bangalore & Hyderabad hubs, to minimise order cancellations and prevent revenue loss from overbooking incidents",
       icon: <Clock className="h-6 w-6 text-slate-700" />
     },
     {
       title: "Implement Safety Stock Buffers",
-      description: "Add 15% safety stock buffer to all high-demand products in Bangalore hub to prevent stockouts during sync delays.",
+      description: "Implement a 15% safety stock buffer for all high-demand products in the Bangalore hub to reduce stock out-related cancellations and recover upto 1.8 L in potential lost revenue",
       icon: <CheckCircle2 className="h-6 w-6 text-slate-700" />
     },
     {
       title: "Deploy Auto-Response System",
-      description: "Implement automated customer communication for affected orders with compensation offers to maintain satisfaction.",
+      description: "Deploy an automated customer response system for orders impacted by inventory mismatches to proactively address customer concerns, reduce ticket load, and safeguard satisfaction levels",
       icon: <Users className="h-6 w-6 text-slate-700" />
     },
     {
       title: "Audit Hub Assignment Logic",
-      description: "Revise routing algorithms to prioritize inventory availability over proximity for high-value orders.",
+      description: "Revise hub routing logic to prioritise inventory availability over proximity for high value orders, to reduce SLA breaches caused by inventory sync delays and prevent fulfillment failures",
       icon: <BarChart3 className="h-6 w-6 text-slate-700" />
     }
   ];
@@ -495,13 +495,13 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
               <div className={`absolute -top-3 -right-3 ${card.type === 'critical' ? 'bg-red-100' : 'bg-amber-100'} p-1.5 rounded-full border-2 border-white`}>
                 <AlertCircle className={`h-5 w-5 ${card.type === 'critical' ? 'text-red-600' : 'text-amber-600'}`} />
                 </div>
-              <h4 className="font-bold text-lg text-gray-800 mb-2">{card.title}</h4>
-              <p className="text-gray-600 mb-4">{card.description}</p>
+              <h4 className="font-bold text-lg text-[#0f62fe] mb-2">{card.title}</h4>
+              <p className="text-[#0f62fe] mb-4">{card.description}</p>
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-slate-600">{card.impact}</span>
+                <span className="text-sm font-medium text-[#0f62fe]">{card.impact}</span>
                 <Button 
                   variant="ghost" 
-                  className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center"
+                  className="text-[#0f62fe] hover:text-blue-800 text-sm font-medium flex items-center"
                   onClick={() => handleKnowMore(card.insight)}
                 >
                   Know More
@@ -512,7 +512,7 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
                   ))}
         </div>
 
-        <div className="bg-gradient-to-r from-slate-700 to-slate-800 rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-gradient-to-r from-[#0f62fe] to-[#0f62fe] rounded-xl shadow-lg p-6 mb-8">
           <h3 className="text-xl font-bold text-white mb-4">Urgent Action Plan</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {actionPlans.map((plan, index) => (
@@ -530,7 +530,7 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
                 ))}
               </div>
           <div className="mt-4 flex justify-center">
-            <Button className="bg-white text-slate-800 px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors" onClick={handleEmergencyProtocol}>
+            <Button className="bg-white text-[#0f62fe] px-6 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors" onClick={handleEmergencyProtocol}>
               Implement Emergency Protocol
             </Button>
           </div>
