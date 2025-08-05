@@ -512,18 +512,18 @@ export default function ExecutiveSummaryTab({ timeRange, onTriggerChatbot }: Exe
                   ))}
         </div>
 
-        <div className="bg-gradient-to-r from-[#0f62fe] to-[#0f62fe] rounded-xl shadow-lg p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4">Urgent Action Plan</h3>
+        <div className="bg-gradient-to-r from-[#a6c8ff] to-[#d0e2ff] rounded-xl shadow-lg p-6 mb-8">
+          <h3 className="text-xl font-bold text-[#0f62fe] mb-4">Urgent Action Plan</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {actionPlans.map((plan, index) => (
-              <div key={index} className="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-4">
+              <div key={index} className="bg-white shadow-sm rounded-lg p-4">
                 <div className="flex items-start">
-                  <div className="bg-white p-2 rounded-lg mr-3">
+                  <div className="bg-[#e5f0ff] p-2 rounded-lg mr-3">
                     {plan.icon}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white">{plan.title}</h4>
-                    <p className="text-sm text-slate-300 mt-1">{plan.description}</p>
+                    <h4 className="font-semibold text-[#0f62fe]">{plan.title}</h4>
+                    <p className="text-sm text-[#4d7cc3] mt-1">{plan.description}</p>
                   </div>
                 </div>
               </div>
